@@ -25,12 +25,14 @@ class RouteStatus {
   private _statusBarItem: vscode.StatusBarItem;
   private _listenerDisposables: Disposable[] = [];
   private static instance: RouteStatus;
-  private _baseUrl = 'http://localhost:3000/';
+  private _baseUrl = 'http://localhost:3000';
   private _pathname = '/';
   private constructor() {
     this._statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 500);
     this.updateBaseUrl();
     this.updateStatusBar(); //intial update
+
+    this._statusBarItem.command = 'FileRoutePath.copyUrl';
 
     vscode.window.onDidChangeActiveTextEditor(
       this.updateStatusBar,
@@ -53,18 +55,23 @@ class RouteStatus {
     }
     return RouteStatus.instance;
   }
-  public setBaseUrl(url: string) {
-    // update WorkspaceConfiguration if specified otherwise global configuration
-    vscode.workspace.getConfiguration().update('FileRoutePath.baseUrl', url);
-    this._baseUrl = url;
-  }
+  // no need for now
+  // public setBaseUrl(url: string) {
+  //   // update WorkspaceConfiguration if specified otherwise global configuration
+  //   vscode.workspace.getConfiguration().update('FileRoutePath.baseUrl', url);
+  //   this._baseUrl = url;
+  // }
   private updateBaseUrl() {
     this._baseUrl = vscode.workspace.getConfiguration().get('FileRoutePath.baseUrl') as string;
+    console.log(this._baseUrl);
   }
   /**
    * get full url
    */
   public get url() {
+    if (!this._baseUrl) {
+      return this._pathname;
+    }
     return new URL(this._pathname, this._baseUrl).href;
   }
 
@@ -74,9 +81,9 @@ class RouteStatus {
       this._pathname = this.generatePathname(editor);
       this._statusBarItem.text = this._pathname;
       const markdown = new vscode.MarkdownString(
-        `$(ports-open-browser-icon) [${this.url}](${this.url})`
+        `$(ports-open-browser-icon) [${this.url}](${this.url})`,
+        true
       );
-      markdown.supportThemeIcons = true;
       this._statusBarItem.tooltip = markdown;
       this._statusBarItem.show();
     } else {

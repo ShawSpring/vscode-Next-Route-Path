@@ -18,7 +18,6 @@ function parsePath(path: string): string {
   //parallel routes
   const parallelRouteReg = /\/@([^\/|^\.]+)(?=\/|$)/;
   path = path.replace(parallelRouteReg, '');
-  console.log(path);
   //intercepting routes
   path = path.replace(/(?<=\/)\(\.\)/, ''); //  \(.)
   path = path.replace(/[^\/]+\/\(\.\.\)(?=\w)/, ''); //
