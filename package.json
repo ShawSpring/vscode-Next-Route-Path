@@ -6,6 +6,7 @@
   "main": "./dist/extension.js",
   "publisher": "ShawSpring",
   "icon": "images/icon.png",
+  "pricing": "Free",
   "repository": {
     "type": "git",
     "url": "https://github.com/ShawSpring/vscode-Next-Route-Path"
