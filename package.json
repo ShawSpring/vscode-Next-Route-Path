@@ -1,7 +1,7 @@
 {
-  "name": "file-route-path",
+  "name": "next-route-path",
   "displayName": ".",
-  "description": "In a project based on file-system router, display URL path of the active file in status bar.",
+  "description": "display nextjs route pathname corresponding to active file in status bar.",
   "version": "0.0.2",
   "main": "./dist/extension.js",
   "publisher": "ShawSpring",
@@ -13,10 +13,10 @@
     "Other"
   ],
   "keywords": [
-    "file",
     "path",
     "route",
-    "next"
+    "next",
+    "status bar"
   ],
   "license": "MIT",
   "activationEvents": [
@@ -25,20 +25,20 @@
   "contributes": {
     "commands": [
       {
-        "command": "FileRoutePath.showPathname",
+        "command": "NextRoutePath.showPathname",
         "title": "Show Pathname",
-        "category": "FileRoutePath"
+        "category": "NextRoutePath"
       },
       {
-        "command": "FileRoutePath.copyUrl",
+        "command": "NextRoutePath.copyUrl",
         "title": "Copy URL",
-        "category": "FileRoutePath"
+        "category": "NextRoutePath"
       }
     ],
     "configuration": {
-      "title": "FileRoutePath",
+      "title": "NextRoutePath",
       "properties": {
-        "FileRoutePath.baseUrl": {
+        "NextRoutePath.baseUrl": {
           "type": "string",
           "default": "http://localhost:3000",
           "description": "Specifies the base URL of your project"

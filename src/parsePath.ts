@@ -3,7 +3,7 @@
  * @param path relative to workspace root
  * @returns route pathname or empty string
  */
-function parsePath(path: string): string {
+function parseAppPath(path: string): string {
   //  start with src/app/ or app/ && end with /page.ts
   const appRouterReg = /^(?:src\/)?app((?:\/.+)*)\/page.(tsx|jsx|js|ts)$/g;
   if (appRouterReg.test(path)) {
@@ -26,4 +26,4 @@ function parsePath(path: string): string {
 
   return path || '/';
 }
-export {parsePath};
+export {parseAppPath};

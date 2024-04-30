@@ -1,40 +1,40 @@
 import {expect} from 'earl';
 
-import {parsePath} from '../parsePath';
+import {parseAppPath} from '../parsePath';
 /**
  * just test parsePath
  */
-describe(parsePath.name, () => {
+describe(parseAppPath.name, () => {
   it('parsePath', () => {
-    expect(parsePath('page.ts')).toEqual('');
-    expect(parsePath('src/app/Page.ts')).toEqual(''); // case sensitive
-    expect(parsePath('src/app/page.tsk')).toEqual('');
-    expect(parsePath('src/app/page.json')).toEqual('');
-    expect(parsePath('src/app/page.ts')).toEqual('/');
-    expect(parsePath('src/app/page.tsx')).toEqual('/');
-    expect(parsePath('src/app/page.js')).toEqual('/');
-    expect(parsePath('app/page.jsx')).toEqual('/');
+    expect(parseAppPath('page.ts')).toEqual('');
+    expect(parseAppPath('src/app/Page.ts')).toEqual(''); // case sensitive
+    expect(parseAppPath('src/app/page.tsk')).toEqual('');
+    expect(parseAppPath('src/app/page.json')).toEqual('');
+    expect(parseAppPath('src/app/page.ts')).toEqual('/');
+    expect(parseAppPath('src/app/page.tsx')).toEqual('/');
+    expect(parseAppPath('src/app/page.js')).toEqual('/');
+    expect(parseAppPath('app/page.jsx')).toEqual('/');
     // group routes
-    expect(parsePath('app/(shop)/details/page.js')).toEqual('/details');
-    expect(parsePath('app/invoices/(shop)/page.js')).toEqual('/invoices');
-    expect(parsePath('app/invoices/sh(op)/page.js')).toEqual('/invoices/sh(op)');
-    expect(parsePath('app/invoices/sh(xx)op/page.js')).toEqual('/invoices/sh(xx)op');
-    expect(parsePath('app/invoices/(sh)op/page.js')).toEqual('/invoices/(sh)op');
+    expect(parseAppPath('app/(shop)/details/page.js')).toEqual('/details');
+    expect(parseAppPath('app/invoices/(shop)/page.js')).toEqual('/invoices');
+    expect(parseAppPath('app/invoices/sh(op)/page.js')).toEqual('/invoices/sh(op)');
+    expect(parseAppPath('app/invoices/sh(xx)op/page.js')).toEqual('/invoices/sh(xx)op');
+    expect(parseAppPath('app/invoices/(sh)op/page.js')).toEqual('/invoices/(sh)op');
     // parallel routes
-    expect(parsePath('app/invoices/@team/page.js')).toEqual('/invoices');
-    expect(parsePath('app/@team/invoices/page.js')).toEqual('/invoices');
-    expect(parsePath('app/te@am/invoices/page.js')).toEqual('/te@am/invoices');
+    expect(parseAppPath('app/invoices/@team/page.js')).toEqual('/invoices');
+    expect(parseAppPath('app/@team/invoices/page.js')).toEqual('/invoices');
+    expect(parseAppPath('app/te@am/invoices/page.js')).toEqual('/te@am/invoices');
     //Dynamic routes
-    expect(parsePath('app/shop/[slug]/category/page.js')).toEqual('/shop/[slug]/category');
-    expect(parsePath('app/shop/[...slug]/page.js')).toEqual('/shop/[...slug]');
-    expect(parsePath('app/shop/[[...slug]]/page.js')).toEqual('/shop/[[...slug]]');
-    expect(parsePath('app/[categoryId]/[itemId]/page.js')).toEqual('/[categoryId]/[itemId]');
+    expect(parseAppPath('app/shop/[slug]/category/page.js')).toEqual('/shop/[slug]/category');
+    expect(parseAppPath('app/shop/[...slug]/page.js')).toEqual('/shop/[...slug]');
+    expect(parseAppPath('app/shop/[[...slug]]/page.js')).toEqual('/shop/[[...slug]]');
+    expect(parseAppPath('app/[categoryId]/[itemId]/page.js')).toEqual('/[categoryId]/[itemId]');
     // intercepting routes
-    expect(parsePath('app/@auth/(.)login/page.tsx')).toEqual('/login');
-    expect(parsePath('app/dashboard/@auth/(..)login/page.tsx')).toEqual('/login');
-    expect(parsePath('app/dashboard/@auth/(..)/page.tsx')).toEqual('/dashboard/(..)');
-    expect(parsePath('app/dashboard/teams/@auth/(...)login/page.tsx')).toEqual('/login');
-    expect(parsePath('app/dashboard/teams/admin/@auth/(..)(..)login/page.tsx')).toEqual(
+    expect(parseAppPath('app/@auth/(.)login/page.tsx')).toEqual('/login');
+    expect(parseAppPath('app/dashboard/@auth/(..)login/page.tsx')).toEqual('/login');
+    expect(parseAppPath('app/dashboard/@auth/(..)/page.tsx')).toEqual('/dashboard/(..)');
+    expect(parseAppPath('app/dashboard/teams/@auth/(...)login/page.tsx')).toEqual('/login');
+    expect(parseAppPath('app/dashboard/teams/admin/@auth/(..)(..)login/page.tsx')).toEqual(
       '/dashboard/login'
     );
   });

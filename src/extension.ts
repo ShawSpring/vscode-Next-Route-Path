@@ -1,17 +1,17 @@
 import * as vscode from 'vscode';
 import type {Disposable} from 'vscode';
-import {parsePath} from './parsePath';
+import {parseAppPath} from './parsePath';
 
 export function activate({subscriptions}: vscode.ExtensionContext) {
   const routeStatus = RouteStatus.createOrShow();
   subscriptions.push(routeStatus); // push a object with dispose() method
   //todo: 快捷方式设置 baseUrl, 看 tooltip 能不能设置
   const disposables: Disposable[] = [
-    vscode.commands.registerCommand('FileRoutePath.showPathname', () => {
+    vscode.commands.registerCommand('NextRoutePath.showPathname', () => {
       //? is it needed to active manully ?
       RouteStatus.createOrShow();
     }),
-    vscode.commands.registerCommand('FileRoutePath.copyUrl', () => {
+    vscode.commands.registerCommand('NextRoutePath.copyUrl', () => {
       const rs = RouteStatus.createOrShow();
       vscode.env.clipboard.writeText(rs.url);
     }),
@@ -25,14 +25,14 @@ class RouteStatus {
   private _statusBarItem: vscode.StatusBarItem;
   private _listenerDisposables: Disposable[] = [];
   private static instance: RouteStatus;
-  private _baseUrl = 'http://localhost:3000';
+  private _baseUrl = '';
   private _pathname = '/';
   private constructor() {
     this._statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 500);
     this.updateBaseUrl();
     this.updateStatusBar(); //intial update
 
-    this._statusBarItem.command = 'FileRoutePath.copyUrl';
+    this._statusBarItem.command = 'NextRoutePath.copyUrl';
 
     vscode.window.onDidChangeActiveTextEditor(
       this.updateStatusBar,
@@ -58,12 +58,11 @@ class RouteStatus {
   // no need for now
   // public setBaseUrl(url: string) {
   //   // update WorkspaceConfiguration if specified otherwise global configuration
-  //   vscode.workspace.getConfiguration().update('FileRoutePath.baseUrl', url);
+  //   vscode.workspace.getConfiguration().update('NextRoutePath.baseUrl', url);
   //   this._baseUrl = url;
   // }
   private updateBaseUrl() {
-    this._baseUrl = vscode.workspace.getConfiguration().get('FileRoutePath.baseUrl') as string;
-    console.log(this._baseUrl);
+    this._baseUrl = vscode.workspace.getConfiguration().get('NextRoutePath.baseUrl') as string;
   }
   /**
    * get full url
@@ -98,7 +97,7 @@ class RouteStatus {
     }
     const relativePath = vscode.workspace.asRelativePath(editor.document.uri);
 
-    return parsePath(relativePath);
+    return parseAppPath(relativePath);
   }
   public dispose() {
     this._statusBarItem.dispose();
