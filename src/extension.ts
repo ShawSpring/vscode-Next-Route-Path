@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import type {Disposable} from 'vscode';
-import {parseAppPath} from './parsePath';
+import parsePath from './parsePath';
 
 export function activate({subscriptions}: vscode.ExtensionContext) {
   const routeStatus = RouteStatus.createOrShow();
@@ -97,7 +97,7 @@ class RouteStatus {
     }
     const relativePath = vscode.workspace.asRelativePath(editor.document.uri);
 
-    return parseAppPath(relativePath);
+    return parsePath(relativePath);
   }
   public dispose() {
     this._statusBarItem.dispose();
