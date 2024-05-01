@@ -2,7 +2,7 @@
   "name": "next-route-path",
   "displayName": "Next Route Path",
   "description": "display nextjs route pathname corresponding to active file in status bar.",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "main": "./dist/extension.js",
   "publisher": "ShawSpring",
   "icon": "images/icon.png",
