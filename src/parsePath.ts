@@ -3,16 +3,22 @@ export default function parsePath(path: string): string {
   const appRouterPageReg = /^(?:src\/)?app((?:\/.+)*)\/page.(tsx|jsx|js|ts)$/;
   // don't need to be contained in the 'api' folder
   const appRouteHandleReg = /^(?:src\/)?app((?:\/.+)*)\/route.(tsx|jsx|js|ts)$/;
-
+  // App Router takes priority
   if (appRouterPageReg.test(path)) {
     path = path.replace(appRouterPageReg, '$1');
     return parseAppPath(path) || '/';
   } else if (appRouteHandleReg.test(path)) {
     path = path.replace(appRouteHandleReg, '$1');
     return path;
-  } else {
-    return ''; // Not Routable
   }
+
+  const pagesReg = /^(?:src\/)?pages((\/.+)*)\.(tsx|jsx|js|ts)$/;
+  if (pagesReg.test(path)) {
+    path = path.replace(pagesReg, '$1');
+    return parsePagesPath(path) || '/';
+  }
+
+  return ''; // Not Routable
 }
 
 /**
@@ -42,7 +48,27 @@ function parseAppPath(path: string): string {
  * @returns route pathname or empty string
  */
 function parsePagesPath(path: string): string {
-  //todo: implement
-  throw new Error('not implemented');
-  return path || '/';
+  // index page
+  path = path.replace(/\/index$/, '');
+  return path;
 }
+
+function test() {
+  const strs = [
+    'pages/index.tsx',
+    'pages/blog/index.js',
+    'pages/blog/itemindex.js',
+    'pages/blog/first-post.js',
+    'pages/dashboard/settings/user.name.js',
+    'pages/blog/[slug].js',
+    'pages/shop/[...slug].js',
+    'pages/shop/[[...slug]].js',
+    'pages/api/hello.js',
+    'pages/Customers.tsx',
+  ];
+  strs.forEach((str) => {
+    console.log(str, '  =>  ', parsePath(str));
+  });
+}
+
+test();

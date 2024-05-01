@@ -42,6 +42,7 @@ describe('parsePath App Router', () => {
     expect(parsePath('app/shop/[...slug]/page.js')).toEqual('/shop/[...slug]');
     expect(parsePath('app/shop/[[...slug]]/page.js')).toEqual('/shop/[[...slug]]');
     expect(parsePath('app/[categoryId]/[itemId]/page.js')).toEqual('/[categoryId]/[itemId]');
+    expect(parsePath('app/category/[itemId]/[id].js')).toEqual('');
   });
   // intercepting routes
   it('intercepting routes', () => {
@@ -55,22 +56,26 @@ describe('parsePath App Router', () => {
   });
 });
 
-// describe('parsePath pages router', () => {
-//   it('index page', () => {
-//     expect(parsePath('pages/index.tsx')).toEqual('/');
-//     expect(parsePath('src/pages/index.js')).toEqual('/');
-//     expect(parsePath('pages/index.json')).toEqual('');
-//     expect(parsePath('pages/page.tsx')).toEqual('/page');
-//   });
-//   it('outer of pages', () => {
-//     expect(parsePath('src/about.tsx')).toEqual('');
-//     expect(parsePath('components/about.tsx')).toEqual('');
-//     expect(parsePath('app/about.tsx')).toEqual('');
-//     expect(parsePath('about.tsx')).toEqual('');
-//   });
-//   it('case sensitive', () => {
-//     expect(parsePath('pages/customers.tsx')).toEqual('/customers');
-//     expect(parsePath('pages/Customers.tsx')).toEqual('');
-//     expect(parsePath('pages/custoMers.tsx')).toEqual('');
-//   });
-// });
+describe('parsePath pages router', () => {
+  it('index page', () => {
+    expect(parsePath('pages/index.tsx')).toEqual('/');
+    expect(parsePath('src/pages/index.js')).toEqual('/');
+    expect(parsePath('pages/index.json')).toEqual('');
+    expect(parsePath('pages/page.tsx')).toEqual('/page');
+  });
+  it('outer of pages', () => {
+    expect(parsePath('src/about.tsx')).toEqual('');
+    expect(parsePath('components/about.tsx')).toEqual('');
+    expect(parsePath('app/about.tsx')).toEqual('');
+    expect(parsePath('about.tsx')).toEqual('');
+  });
+  it('pages/api', () => {
+    expect(parsePath('pages/api/hello.ts')).toEqual('/api/hello');
+    expect(parsePath('api/hello.ts')).toEqual('');
+  });
+  it('case insensitive', () => {
+    expect(parsePath('pages/customers.tsx')).toEqual('/customers');
+    expect(parsePath('pages/Customers.tsx')).toEqual('/Customers');
+    expect(parsePath('pages/custoMers.tsx')).toEqual('/custoMers');
+  });
+});

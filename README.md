@@ -1,6 +1,6 @@
 # Next Route Path
 
-display nextjs route pathname corresponding to active file in status bar.(for now just adapted for App router)
+display nextjs route pathname corresponding to active file in status bar.
 在状态栏显示当前文件的 next 路由路径。
 
 ![alt text](images/demonstration.png)
@@ -22,8 +22,6 @@ only works on **nextjs** project
 extension becomes activated automatically when: workspace contains **"next.config.\*"**
 
 ## Known Issues
-
-nextjs pages router pattern is not supported yet.
 
 ---
 
