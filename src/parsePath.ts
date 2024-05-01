@@ -1,9 +1,15 @@
 export default function parsePath(path: string): string {
   //  start with src/app/ or app/ && end with /page.ts
-  const appRouterReg = /^(?:src\/)?app((?:\/.+)*)\/page.(tsx|jsx|js|ts)$/g;
-  if (appRouterReg.test(path)) {
-    path = path.replace(appRouterReg, '$1');
-    return parseAppPath(path);
+  const appRouterPageReg = /^(?:src\/)?app((?:\/.+)*)\/page.(tsx|jsx|js|ts)$/;
+  // don't need to be contained in the 'api' folder
+  const appRouteHandleReg = /^(?:src\/)?app((?:\/.+)*)\/route.(tsx|jsx|js|ts)$/;
+
+  if (appRouterPageReg.test(path)) {
+    path = path.replace(appRouterPageReg, '$1');
+    return parseAppPath(path) || '/';
+  } else if (appRouteHandleReg.test(path)) {
+    path = path.replace(appRouteHandleReg, '$1');
+    return path;
   } else {
     return ''; // Not Routable
   }
@@ -27,7 +33,7 @@ function parseAppPath(path: string): string {
   path = path.replace(/.*\/\(\.\.\.\)/, '/'); //  \(...)
   path = path.replace(/([^/]+\/){2}\(\.\.\)\(\.\.\)/, ''); //  \(..)(..)
 
-  return path || '/';
+  return path;
 }
 
 /**
