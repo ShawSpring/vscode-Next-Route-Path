@@ -1,8 +1,8 @@
 export default function parsePath(path: string): string {
   //  start with src/app/ or app/ && end with /page.ts
-  const appRouterPageReg = /^(?:src\/)?app((?:\/.+)*)\/page.(tsx|jsx|js|ts)$/;
+  const appRouterPageReg = /^(?:src\/)?app((?:\/.+)*)\/page.(tsx|jsx|js|ts|mjs|cjs)$/;
   // don't need to be contained in the 'api' folder
-  const appRouteHandleReg = /^(?:src\/)?app((?:\/.+)*)\/route.(tsx|jsx|js|ts)$/;
+  const appRouteHandleReg = /^(?:src\/)?app((?:\/.+)*)\/route.(tsx|jsx|js|ts|mjs|cjs)$/;
   // App Router takes priority
   if (appRouterPageReg.test(path)) {
     path = path.replace(appRouterPageReg, '$1');
@@ -12,7 +12,7 @@ export default function parsePath(path: string): string {
     return path;
   }
 
-  const pagesReg = /^(?:src\/)?pages((\/.+)*)\.(tsx|jsx|js|ts)$/;
+  const pagesReg = /^(?:src\/)?pages((\/.+)*)\.(tsx|jsx|js|ts|mjs|cjs)$/;
   if (pagesReg.test(path)) {
     path = path.replace(pagesReg, '$1');
     return parsePagesPath(path) || '/';
